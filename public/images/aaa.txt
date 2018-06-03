@@ -1,0 +1,19 @@
+ 
+    /*
+const fileUpload = require('express-fileupload');
+
+    app.use(fileUpload());
+
+      if(req.files.arquivos)
+        console.log(req.files);
+        console.log(req.body);
+      let sampleFile = req.files.sampleFile;
+      // Use the mv() method to place the file somewhere on your server
+      sampleFile.mv('/somewhere/on/your/server/filename.jpg', function(err) {
+        if (err)
+          return res.status(500).send(err);
+     
+        res.send('File uploaded!');
+      });
+
+    */

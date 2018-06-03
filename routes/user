@@ -1,0 +1,64 @@
+exports.list = function(req,res){
+
+    req.getConnection(function(err,connection){
+        
+        var query = connection.query("SELECT * FROM tbusuarios",function (err,rows){
+            
+            if (err) 
+                console.log("Error selecting : %s",err);
+
+            res.send(rows);
+        });
+
+    });
+    
+};
+
+exports.save = function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+
+    req.getConnection(function(err,connection){
+        data = {
+            nome: input.nome,
+            email: input.email,
+            senha: input.senha
+        }
+
+        var query = connection.query("INSERT INTO tbusuarios set ?",data,function(err,rows){
+
+            if (err) console.log("Error saving : %s",err);
+
+            res.send(data);
+        });
+
+    });
+};
+
+exports.edit = function(req,res){
+    var idatu = req.params.id;
+    req.getConnection(function(err,connection){
+        
+        connection.query("SELECT * FROM tbusuarios WHERE id = ?",idatu,(err,rows)=>{
+            if(err) console.log("Select error : %s",err);
+            res.render('edit_user',{page_title:"Editar Usuario",data:rows});
+        });
+
+    });
+};
+
+exports.save_edit = function(req,res){
+    var input = JSON.parse(JSON.stringify(req.body));
+    var idatu = req.params.id;
+    req.getConnection(function(err,connection){
+        data = {
+            nome : input.nome,
+            email : input.email,
+            senha : input.senha
+        }
+
+        connection.query("UPDATE tbusuarios set ? WHERE id= ?",[data,idatu],(err,rows)=>{
+            if (err) console.log("Error updating : %s",err);
+            res.send(data);
+        });
+    });
+}
